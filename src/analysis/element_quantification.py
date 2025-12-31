@@ -12,8 +12,13 @@ def calculate_concentration(spectrum, element):
     Returns:
         float concentration
     """
-    # Simple peak integration for all elements
-    peak_area = algorithms.integrate_peak(spectrum, element)
+    # Use deconvolution algorithm for lead (Pb) for improved sensitivity
+    if element == 'Pb':
+        peak_area = algorithms.deconvolve_peak(spectrum, element)
+    else:
+        # Simple peak integration for other elements
+        peak_area = algorithms.integrate_peak(spectrum, element)
+    
     # Placeholder conversion factor
     concentration = peak_area * 0.01
     return concentration
